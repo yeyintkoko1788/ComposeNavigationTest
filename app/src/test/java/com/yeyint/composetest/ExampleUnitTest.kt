@@ -1,4 +1,4 @@
-package com.yeyint.jackpackcomposetest
+package com.yeyint.composetest
 
 import org.junit.Test
 

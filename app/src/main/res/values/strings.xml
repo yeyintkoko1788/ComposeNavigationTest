@@ -1,3 +1,18 @@
 <resources>
-    <string name="app_name">JackpackComposeTest</string>
+    <string name="app_name">ComposeTest</string>
+    <string name="launch_name">Launch Name: %s</string>
+    <string name="successful">Successful</string>
+    <string name="unsuccessful">Unsuccessful</string>
+    <string name="launch_year">Launch Year: %s</string>
+    <string name="launch_details">Launch Details: %s</string>
+    <string name="no_data">No Data</string>
+    <string name="launch_screen">Launch Screen</string>
+    <string name="login_screen">Login</string>
+    <string name="sign_in">Sign in</string>
+    <string name="user_name">User Name</string>
+    <string name="your_user_name">Your User Name</string>
+    <string name="password">Password</string>
+    <string name="your_password">Your Password</string>
+    <string name="home_screen">Home Screen</string>
+    <string name="btn_movie_detail">Movie Detail</string>
 </resources>

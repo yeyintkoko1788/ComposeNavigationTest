@@ -35,13 +35,11 @@ fun SplashScreen(
             )
         }
     }
-    android.os.Handler(Looper.getMainLooper()).postDelayed({
         navController.navigate(Screen.Login.route) {
             popUpTo(navController.graph.id) {
                 inclusive = true
             }
         }
-    },2000)
 }
 
 @Preview

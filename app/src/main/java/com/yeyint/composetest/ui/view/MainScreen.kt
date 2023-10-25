@@ -26,6 +26,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.yeyint.composetest.ui.theme.ComposeTestTheme
@@ -35,18 +39,23 @@ import com.yeyint.composetest.ui.theme.ComposeTestTheme
 fun MainScreen(
     navController: NavController
 ){
-    val screenList = listOf("Home", "Category", "Favourite", "Profile")
-    var selectedScreen by remember {
-        mutableStateOf(screenList.first())
-    }
+    val screenList = listOf(
+        Screen.Home,
+        Screen.Category,
+        Screen.Favourite,
+        Screen.Profile)
+//    var selectedScreen by remember {
+//        mutableStateOf(screenList.first())
+//    }
 
+    val homeNavController = rememberNavController()
     ComposeTestTheme {
         Surface(
             modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
         ) {
             Scaffold(
                 bottomBar = {
-                    val navBackStackEntry by navController.currentBackStackEntryAsState()
+                    val navBackStackEntry by homeNavController.currentBackStackEntryAsState()
                     val currentDestination = navBackStackEntry?.destination
 
                     NavigationBar {
@@ -54,40 +63,71 @@ fun MainScreen(
                             NavigationBarItem(
                                 icon = {
                                     Icon(
-                                        getIconForScreen(screen = screen), contentDescription = null
+                                        getIconForScreen(screen = screen.route),
+                                        contentDescription = null
                                     )
                                 },
-                                label = { Text(text = screen, maxLines = 1,overflow = TextOverflow.Ellipsis) },
-                                selected = screen == selectedScreen,
+                                label = {
+                                    Text(
+                                        text = screen.route,
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis
+                                    )
+                                },
+                                selected = currentDestination?.route == screen.route,
                                 onClick = {
-                                    Log.d("GCAPP",screen)
-                                    selectedScreen = screen
+//                                    Log.d("GCAPP",screen.route)
+//                                    selectedScreen = screen
+                                    homeNavController.navigate(screen.route) {
+                                        popUpTo(homeNavController.graph.findStartDestination().id) {
+                                            saveState = true
+                                        }
+                                        launchSingleTop = true
+                                        restoreState = true
+                                    }
                                 }
                             )
                         }
                     }
+                }){ paddingValue ->
+                NavHost(navController = homeNavController, startDestination = Screen.Home.route){
+                    composable(route = Screen.Home.route){
+                        HomeView(navController = navController, Modifier.padding(paddingValue))
+                    }
 
-                }){
-                when(selectedScreen){
-                    "Home" -> {
-                        HomeView(navController = navController, Modifier.padding(it))
+                    composable(route = Screen.Category.route){
+                        CategoryView(navController = navController, Modifier.padding(paddingValue))
                     }
-                    "Category" -> {
-                        CategoryView(navController = navController, Modifier.padding(it))
+
+                    composable(route = Screen.Favourite.route){
+                        FavouriteView(navController = navController, Modifier.padding(paddingValue))
                     }
-                    "Favourite" -> {
-                        FavouriteView(navController = navController, Modifier.padding(it))
-                    }
-                    "Profile" -> {
-                        ProfileView(navController = navController, Modifier.padding(it))
-                    }
-                    else ->{
-                        HomeView(navController = navController, Modifier.padding(it))
+
+                    composable(route = Screen.Profile.route){
+                        ProfileView(navController = navController, Modifier.padding(paddingValue))
                     }
                 }
             }
+//                }){
+////                when(selectedScreen){
+////                    "Home" -> {
+////                        HomeView(navController = navController, Modifier.padding(it))
+////                    }
+////                    "Category" -> {
+////                        CategoryView(navController = navController, Modifier.padding(it))
+////                    }
+////                    "Favourite" -> {
+////                        FavouriteView(navController = navController, Modifier.padding(it))
+////                    }
+////                    "Profile" -> {
+////                        ProfileView(navController = navController, Modifier.padding(it))
+////                    }
+////                    else ->{
+////                        HomeView(navController = navController, Modifier.padding(it))
+////                    }
+//                }
+            }
         }
-    }
 }
 
 fun getIconForScreen(screen: String): ImageVector {

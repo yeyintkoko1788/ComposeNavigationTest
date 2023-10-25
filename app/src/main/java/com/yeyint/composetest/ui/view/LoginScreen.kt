@@ -47,8 +47,8 @@ fun LoginScreen(
     navController: NavController
 ) {
 
-    var userName by remember { mutableStateOf(TextFieldValue("")) }
-    var password by remember { mutableStateOf(TextFieldValue("")) }
+    var userName by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
 
     ComposeTestTheme {
         Surface(
@@ -160,12 +160,5 @@ fun LoginScreen(
 @Preview(showBackground = true)
 @Composable
 fun previewLoginScreen() {
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
-    ) {
-        Column(modifier = Modifier.fillMaxSize()) {
-            LoginScreen(rememberNavController())
-        }
-    }
+    LoginScreen(rememberNavController())
 }

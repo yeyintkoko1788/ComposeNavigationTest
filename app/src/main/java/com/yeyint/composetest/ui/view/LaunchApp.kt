@@ -1,6 +1,7 @@
 package com.yeyint.composetest.ui.view
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -25,6 +26,8 @@ fun LaunchApp(){
         composable(route = Screen.MovieDetail.route){
             MovieDetailScreen(navController = navController)
         }
+
+
     }
 }
 
@@ -33,4 +36,8 @@ sealed class Screen(val route : String){
     object Login : Screen("login")
     object Main : Screen("main")
     object MovieDetail : Screen("movie_detail")
+    object Home : Screen("home")
+    object Category : Screen("category")
+    object Favourite : Screen("favourite")
+    object Profile : Screen("profile")
 }
